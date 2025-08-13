@@ -288,10 +288,26 @@ if (!$is_search && !empty($relative_path)) {
                             </div>
                         <?php endforeach; ?>
 
+                        <?php
+                        function getFileIcon($filename) {
+                            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                            switch (strtolower($ext)) {
+                                case 'apk':
+                                    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.52 5.48c-.67-.67-1.55-1.02-2.48-1.02H8.96c-.93 0-1.81.35-2.48 1.02L2 10.5V22h20V10.5L17.52 5.48zM12 19c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm-1-8V7h2v4h-2z"/></svg>'; // Android icon
+                                case 'exe':
+                                case 'msi':
+                                    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1 18H7v-4h4v4zm0-6H7V8h4v4zm6 6h-4v-4h4v4zm0-6h-4V8h4v4z"/></svg>'; // Windows icon
+                                case 'dmg':
+                                    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2c4.418 0 8 3.582 8 8 0 2.21-1.09 4.19-2.79 5.41l-5.21-5.21V4h-2v6.19l-5.21 5.21C5.09 14.19 4 12.21 4 10c0-4.418 3.582-8 8-8z"/></svg>'; // Apple icon
+                                default:
+                                    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>'; // Default file icon
+                            }
+                        }
+                        ?>
                         <?php foreach ($files_list as $file): ?>
                             <div class="list-item">
                                 <span class="item-name">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                                    <?php echo getFileIcon($file['name']); ?>
                                     <?php echo htmlspecialchars($file['name']); ?>
                                     <?php if ($is_search): ?>
                                         <span class="item-path"><?php echo htmlspecialchars(dirname($file['path'])); ?></span>
