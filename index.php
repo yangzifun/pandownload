@@ -94,14 +94,14 @@ if (!$is_search && !empty($relative_path)) {
     <style>
         html { font-size: 87.5%; }
         body, html { margin: 0; padding: 0; min-height: 100%; background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 120px 20px 40px; box-sizing: border-box; }
+        .container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 90px 20px 40px; box-sizing: border-box; }
         .content-group { width: 100%; max-width: 800px; text-align: left; z-index: 10; }
         #header-overlay {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
-          padding: 18px 36px;
+          padding: 10px 36px;
           box-sizing: border-box;
           display: flex;
           justify-content: space-between;
@@ -112,14 +112,14 @@ if (!$is_search && !empty($relative_path)) {
           text-decoration: none;
         }
         .header-name {
-          font-size: 2.2rem;
+          font-size: 1.8rem;
           color: #3d474d;
           font-weight: bold;
           margin: 0;
         }
         .header-avatar-container {
-          width: 70px;
-          height: 70px;
+          width: 50px;
+          height: 50px;
           border: 2px solid #89949B;
           border-radius: 50%;
           overflow: hidden;
@@ -200,8 +200,18 @@ if (!$is_search && !empty($relative_path)) {
             html {
                 font-size: 100%;
             }
+            #header-overlay {
+                padding: 8px 15px;
+            }
+            .header-name {
+                font-size: 1.5rem;
+            }
+            .header-avatar-container {
+                width: 40px;
+                height: 40px;
+            }
             .container {
-                padding: 20px 15px;
+                padding: 70px 15px 20px;
                 justify-content: flex-start;
             }
             .card {
