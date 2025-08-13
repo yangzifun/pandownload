@@ -1,0 +1,11 @@
+# 阻止对 private_files 目录的直接访问
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^private_files/.*$ - [F,L]
+</IfModule>
+
+# 或者更简单的，直接拒绝所有请求
+<Directory /path/to/your/project/public_html/private_files/>
+    Order Deny,Allow
+    Deny from All
+</Directory>
