@@ -1,5 +1,9 @@
 ## 简单网盘下载站
 
+基于PHP 开发，通过Nginx 部署实现简单网盘下载站，文件夹管理文件直接展示，不存在权限管理及文件上传功能。
+
+### 文件结构
+
 /path/to/your/project/
 
 ├── public_html/   <-- 你的Web服务器根目录
@@ -16,7 +20,7 @@
 
 ​    ├── document.pdf
 
-​    └── image.jpg```
+​    └── image.jpg
 
 
 
