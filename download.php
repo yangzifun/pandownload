@@ -1,4 +1,8 @@
 <?php
+// 禁用时间限制和内存限制，以支持大文件下载
+set_time_limit(0);
+ini_set('memory_limit', '-1');
+
 // 引入配置文件（如果使用单独的配置文件）
 // include_once 'config.php';
 
@@ -57,14 +61,50 @@ header('Content-Disposition: attachment; filename="' . basename($filePath) . '"'
 header('Expires: 0');
 header('Cache-Control: must-revalidate');
 header('Pragma: public');
-header('Content-Length: ' . filesize($filePath)); // 文件大小
+$fileSize = filesize($filePath);
+$range = 0;
+$start = 0;
+$end = $fileSize - 1;
+
+if (isset($_SERVER['HTTP_RANGE'])) {
+    $range = $_SERVER['HTTP_RANGE'];
+    $range = str_replace('bytes=', '', $range);
+    list($start, $end) = explode('-', $range);
+    $start = intval($start);
+    if (empty($end)) {
+        $end = $fileSize - 1;
+    } else {
+        $end = intval($end);
+    }
+
+    header('HTTP/1.1 206 Partial Content');
+    header('Content-Range: bytes ' . $start . '-' . $end . '/' . $fileSize);
+}
+
+header('Content-Length: ' . ($end - $start + 1)); // 根据范围设置内容长度
 
 // 清除并刷新输出缓冲区，确保没有其他内容在文件流之前输出
 ob_clean();
 flush();
 
-// 输出文件内容
-readfile($filePath);
+$file = fopen($filePath, 'rb');
+if ($file === false) {
+    die("错误：无法打开文件进行读取。");
+}
+
+fseek($file, $start);
+
+$bufferSize = 4096; // 每次读取的字节数
+while (!feof($file) && ($pointer = ftell($file)) <= $end) {
+    if ($pointer + $bufferSize > $end) {
+        $bufferSize = $end - $pointer + 1;
+    }
+    echo fread($file, $bufferSize);
+    ob_flush(); // 刷新PHP自身的输出缓冲区
+    flush();    // 刷新Web服务器的输出缓冲区
+}
+
+fclose($file);
 
 exit; // 确保脚本执行在此结束
 ?>
